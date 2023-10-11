@@ -23,7 +23,7 @@ SELECT
     transactions,
     date,
     year
-FROM {{ ref('stg_all_tickers_history') }}
+FROM {{ ref('stg_all_tickers_historical') }}
 ), dividends AS
 (
 SELECT
@@ -38,8 +38,8 @@ SELECT
     frequency,
     pay_date,
     pay_yr
-    WHERE ex_dividend_date >= '2018-10-12'
-FROM {{ ref('stg_all_dividends_history') }}
+FROM {{ ref('stg_all_dividends_historical') }}
+WHERE ex_dividend_date >= '2018-10-12'
 )
 SELECT
     detail.*,

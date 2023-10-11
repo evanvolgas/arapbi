@@ -5,7 +5,7 @@ SELECT
     close,
     volume_weighted_average_price,
     volume,
-    transactions
+    transactions,
     date,
     EXTRACT(YEAR from date) as year
 

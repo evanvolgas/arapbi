@@ -2,51 +2,6 @@
 version: 2
 
 models:
-  - name: stg_all_dividends_history
-    description: "Add this description"
-    columns:
-      - name: ticker
-        description: "The primary key for this table"
-        tests:
-          - not_null
-    tests:
-      - unique:
-          column_name: "(ticker || '-' || ex_dividend_date)"
-
-  - name: stg_all_ticker_types
-    description: "Add this description"
-    columns:
-      - name: code
-        description: "The primary key for this table"
-        tests:
-          - not_null
-          - unique
-
-  - name: stg_all_tickers_detail
-    description: "Add this description"
-    columns:
-      - name: ticker
-        description: "The primary key for this table"
-        tests:
-          - not_null
-          - unique
-
-  - name: stg_all_tickers_history
-    description: "Add this description"
-    columns:
-      - name: ticker
-        description: "The primary key for this table"
-        tests:
-          - not_null
-
-  - name: stg_all_tickers
-    description: "Add this description"
-    columns:
-      - name: ticker
-        description: "The primary key for this table"
-        tests:
-          - not_null
-          - unique
 
   - name: all_tickers_history_summary
     description: "Add this description"
