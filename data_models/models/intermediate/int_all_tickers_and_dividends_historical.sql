@@ -60,7 +60,7 @@ SELECT
     pay_date,
     pay_yr
 FROM  detail
-LEFT JOIN history
+RIGHT JOIN history
     ON detail.ticker = history.ticker
 LEFT JOIN dividends
     ON  history.ticker = dividends.ticker

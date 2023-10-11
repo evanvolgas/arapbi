@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     sql = """
         SELECT distinct(ticker) as ticker
-        FROM `raw.all_tickers_history` ORDER BY 1;
+        FROM `raw.all_tickers` ORDER BY 1;
         """
     df = pd.read_gbq(sql, dialect="standard")
     df = pd.read_gbq(sql,
