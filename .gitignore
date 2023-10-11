@@ -1,0 +1,12 @@
+*.csv
+*.json
+*.icloud
+.DS_Store
+secrets_define.py
+polygon_rewrite.py
+*.pyc
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
