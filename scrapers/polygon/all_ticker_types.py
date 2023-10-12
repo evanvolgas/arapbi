@@ -12,7 +12,7 @@ from google.cloud import logging, secretmanager, storage
 from polygon import RESTClient
 
 # Constants
-BQ_TABLE_NAME = "etl.all_ticker_types"  # dataset.table
+BQ_TABLE_NAME = "raw.all_ticker_types"  # dataset.table
 CSV_FILE_NAME = "all_ticker_types.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
 

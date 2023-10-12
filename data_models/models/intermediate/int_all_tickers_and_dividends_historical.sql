@@ -87,7 +87,7 @@ FROM all_tickers
 LEFT JOIN detail
     ON all_tickers.ticker = detail.ticker
     AND all_tickers.type = detail.type
-RIGHT JOIN history
+LEFT JOIN history
     ON all_tickers.ticker = history.ticker
 LEFT JOIN dividends
     ON  all_tickers.ticker = dividends.ticker
