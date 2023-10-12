@@ -61,7 +61,7 @@ if __name__ == "__main__":
         request={"name": f"projects/{PROJECT_ID}/secrets/{SECRET_ID}/versions/latest"}
     )
     polygon_client = RESTClient(
-        polygon_secret.payload.data.decode("UTF-8"), retries=10, trace=True
+        polygon_secret.payload.data.decode("UTF-8"), retries=10, trace=False
     )
     storage_client = storage.Client()
 
