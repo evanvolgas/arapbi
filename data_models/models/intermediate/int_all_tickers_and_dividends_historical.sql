@@ -34,6 +34,7 @@ SELECT
     close,
     volume_weighted_average_price,
     transactions,
+    volume,
     date,
     year
 FROM {{ ref('stg_all_tickers_historical') }}
@@ -71,6 +72,7 @@ SELECT
     close,
     volume_weighted_average_price,
     transactions,
+    volume,
     date,
     year,
     cash_amount,
