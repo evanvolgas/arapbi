@@ -3,7 +3,7 @@ with source_data as (
     SELECT
         ticker,
         title,
-        description,
+        sic_description,
         avg(total_employees) AS total_employees,
         avg(volume_weighted_average_price) as volume_weighted_average_price,
         avg(cash_amount) AS avg_cash_amount,

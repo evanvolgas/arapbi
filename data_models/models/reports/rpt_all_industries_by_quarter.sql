@@ -1,5 +1,5 @@
 SELECT
-    description,
+    sic_description,
     year,
     extract(quarter from date) as quarter,
     avg(volume_weighted_average_price) as volume_weighted_average_price,
