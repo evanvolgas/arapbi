@@ -35,7 +35,7 @@ models:
     # Config indicated by + and applies to all files under models/example/
     intermediate:
       +materialized: view
-    marts:
+    reports:
       +materialized: table
     monitoring:
       +materialized: view

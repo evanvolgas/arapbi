@@ -8,7 +8,7 @@ with source_data as (
         avg(volume_weighted_average_price) as avg_volume_weighted_average_price,
         avg(volume) as avg_volume,
         avg(transactions) as avg_transactions
-    FROM raw.all_tickers_history
+    FROM {{ ref('stg_all_tickers_historical') }}
     GROUP BY 1
 )
 
