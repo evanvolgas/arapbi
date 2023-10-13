@@ -1,5 +1,6 @@
 import datetime as dt
 import logging as log
+import os
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
@@ -7,25 +8,24 @@ from threading import Lock
 import pandas as pd
 import pandas_gbq
 
-from constants import BUCKET_NAME, PROJECT_ID, SECRET_ID
-from google.cloud import logging, secretmanager, storage
+from google.cloud import logging, storage
 from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_ticker_types"  # dataset.table
+BUCKET_NAME = "arapbi-polygon"
 CSV_FILE_NAME = "all_ticker_types.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
+PROJECT_ID = "new-life-400922"
+SECRET_ID = "polygon"
+WORKERS = 50
 
 if __name__ == "__main__":
-    # Set up client connections
     logging_client = logging.Client()
     logging_client.setup_logging()
-    secrets_client = secretmanager.SecretManagerServiceClient()
-    polygon_secret = secrets_client.access_secret_version(
-        request={"name": f"projects/{PROJECT_ID}/secrets/{SECRET_ID}/versions/latest"}
-    )
+    polygon_secret = os.getenv('POLYGON_API_KEY')
     polygon_client = RESTClient(
-        polygon_secret.payload.data.decode("UTF-8"), retries=10, trace=False
+        polygon_secret, retries=10, trace=False
     )
     storage_client = storage.Client()
 
