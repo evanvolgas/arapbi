@@ -7,6 +7,8 @@ SELECT
     avg(weighted_shares_outstanding) as avg_weighted_shares_outstanding,
     avg(total_employees) AS avg_total_employees,
     count(distinct ticker) as num_tickers,
+    avg(transactions) AS avg_transactions,
+    avg(volume) AS avg_volume,
     min(date) as min_date,
     max(date) as max_date,
     count(distinct date) as number_days_in_quarter
