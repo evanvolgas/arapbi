@@ -45,7 +45,7 @@ if __name__ == "__main__":
     all_ticker_types_df = pd.DataFrame(all_ticker_types)
 
     # Write a CSV to Google Storage
-    print(f"Writing {GCP_FILE_NAME}")
+    log.info(f"Writing {GCP_FILE_NAME}")
     all_ticker_types_df.to_csv(f"gs://arapbi-polygon/{GCP_FILE_NAME}")
 
     # upload the data to Bigquery
