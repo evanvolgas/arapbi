@@ -11,6 +11,8 @@ import pandas_gbq
 from google.cloud import logging, storage
 from polygon import RESTClient
 
+# TODO Make this incremental
+
 # Constants
 BQ_TABLE_NAME = "raw.all_tickers_history"  # dataset.table
 BUCKET_NAME = "arapbi-polygon"
