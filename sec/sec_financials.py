@@ -12,7 +12,7 @@ from google.cloud import logging, storage
 
 BQ_TABLE_NAME = "raw.sec_financials"  # dataset.table
 BUCKET_NAME = "arapbi-polygon"
-COMPANY_FINANCIALS_URL = 'https://www.sec.gov/dera/data/financial-statement-data-sets'
+COMPANY_FINANCIALS_URL = "https://www.sec.gov/dera/data/financial-statement-data-sets"
 CSV_FILE_NAME = "sec_financials.csv"
 PROJECT_ID = "new-life-400922"
 
@@ -21,6 +21,7 @@ def string_pad(cik_str):
     c = str(cik_str)
     cik = c.zfill(10)
     return cik
+
 
 def unzip_response(r):
     zipfile = ZipFile(BytesIO(r.content))
@@ -39,28 +40,34 @@ if __name__ == "__main__":
     soup = BeautifulSoup(r.content)
 
     links = []
-    for link in soup.find_all('a', href=True):
-        if '.zip' in link['href']:
+    for link in soup.find_all("a", href=True):
+        if ".zip" in link["href"]:
             links.append(f"https://www.sec.gov/{link['href']}")
 
-    for link in links[0:1]:
+    for link in links[0:22]:
         zip_file = requests.get(link)
         unzipped = unzip_response(zip_file)
         for file in unzipped:
-            if '.txt' in file.name:
-                df = pd.read_csv(StringIO(file.read().decode('utf-8')), delimiter='\t')
-                if 'cik' in df.columns:
-                    df['cik'] = df['cik'].apply(string_pad)
+            if "sub" in file.name or "num" in file.name:
+                print(f"Assembling data frame from {file.name}")
+                df = pd.read_csv(StringIO(file.read().decode("utf-8")), delimiter="\t")
+                df["year"] = int(link[-10:-6])
+                df["quarter"] = int(link[-5:-4])
+
+                if "cik" in df.columns:
+                    df["cik"] = df["cik"].apply(string_pad)
+
+                print(
+                    f"Writing {file.name} to gs://arapbi-sec/financials/{link[-10:-4]}_{file.name}"
+                )
                 log.info(f"Writing {file.name}")
                 df.to_csv(f"gs://arapbi-sec/financials/{link[-10:-4]}_{file.name}")
 
-    log.info(f"Uploading {BQ_TABLE_NAME} to BQ")
-    pandas_gbq.to_gbq(
-        tickers_df,
-        BQ_TABLE_NAME,
-        project_id=PROJECT_ID,
-        if_exists="replace",
-    )
-
-
-
+                print(f"Uploading {file.name} to BQ")
+                table_name = file.name[0:-4]
+                pandas_gbq.to_gbq(
+                    df,
+                    f"raw.sec_financials_{table_name}",
+                    project_id=PROJECT_ID,
+                    if_exists="append",
+                )
