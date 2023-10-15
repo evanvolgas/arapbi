@@ -16,6 +16,61 @@ COMPANY_FINANCIALS_URL = "https://www.sec.gov/dera/data/financial-statement-data
 CSV_FILE_NAME = "sec_financials.csv"
 PROJECT_ID = "new-life-400922"
 
+SUB_DTYPE = {
+    "adsh": "string",
+    "cik": int,
+    "name": "string",
+    "sic": float,
+    "countryba": "string",
+    "stprba": "string",
+    "cityba": "string",
+    "zipba": "string",
+    "bas1": "string",
+    "bas2": "string",
+    "baph": "string",
+    "countryma": "string",
+    "stprma": "string",
+    "cityma": "string",
+    "zipma": "string",
+    "mas1": "string",
+    "mas2": "string",
+    "countryinc": "string",
+    "stprinc": "string",
+    "ein": int,
+    "former": "string",
+    "changed": "float64",
+    "afs": "string",
+    "wksi": "int64",
+    "fye": float,
+    "form": "string",
+    "period": float,
+    " fy": float,
+    " fp": "string",
+    "filed": int,
+    "accepted": "string",
+    "prevrpt": int,
+    "detail": int,
+    "instance": "string",
+    "nciks": "int64",
+    "aciks": "string",
+    "year": int,
+    "quarter": int,
+}
+
+NUM_DTYPE = {
+    "adsh": "string",
+    "tag": "string",
+    "version": "string",
+    "coreg": "string",
+    "ddate": int,
+    "qtrs": int,
+    "uom": "string",
+    "value": float,
+    "footnote": "string",
+    "year": int,
+    "quarter": int,
+}
+
 
 def string_pad(cik_str):
     c = str(cik_str)
@@ -49,17 +104,22 @@ if __name__ == "__main__":
         unzipped = unzip_response(zip_file)
         for file in unzipped:
             if "sub" in file.name or "num" in file.name:
-                print(f"Assembling data frame from {file.name}")
-                df = pd.read_csv(StringIO(file.read().decode("utf-8")), delimiter="\t")
-                df["year"] = int(link[-10:-6])
-                df["quarter"] = int(link[-5:-4])
-
-                if "cik" in df.columns:
+                if "sub" in file.name:
+                    df = pd.read_csv(
+                        StringIO(file.read().decode("utf-8")),
+                        delimiter="\t",
+                        dtype=SUB_DTYPE,
+                    )
                     df["cik"] = df["cik"].apply(string_pad)
+                    df["year"] = int(link[-10:-6])
+                    df["quarter"] = int(link[-5:-4])
+                if "num" in file.name:
+                    df = pd.read_csv(
+                        StringIO(file.read().decode("utf-8")),
+                        delimiter="\t",
+                        dtype=NUM_DTYPE,
+                    )
 
-                print(
-                    f"Writing {file.name} to gs://arapbi-sec/financials/{link[-10:-4]}_{file.name}"
-                )
                 log.info(f"Writing {file.name}")
                 df.to_csv(f"gs://arapbi-sec/financials/{link[-10:-4]}_{file.name}")
 
