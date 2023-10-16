@@ -1,14 +1,13 @@
 import datetime as dt
-import logging as log
 import os
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 import pandas as pd
 import pandas_gbq
 
-from google.cloud import logging, storage
+from google.cloud import storage
 from polygon import RESTClient
 
 # TODO Make this incremental
@@ -18,7 +17,6 @@ BQ_TABLE_NAME = "raw.all_tickers_history"  # dataset.table
 BUCKET_NAME = "arapbi-polygon"
 GCP_FOLDER_NAME = "polygon/tickers/"
 PROJECT_ID = "new-life-400922"
-SECRET_ID = "polygon"
 WORKERS = 50
 
 # Scrape Polygon's website for stocks history for every ticker, make a dataframe out of the result,
@@ -46,11 +44,11 @@ def fetch_stock_history(d):
         df.to_csv(f"gs://arapbi-polygon/polygon/tickers/{d}.csv")
         return df
     else:
-        log.warning(f"No ticker data for {d}")
+        print(f"No ticker data for {d}")
 
 
 def scrape_gcp_for_csvs(file):
-    log.info(f"Downloading {file.name}")
+    print(f"Downloading {file.name}")
     file_path = f"gs://{file.bucket.name}/{file.name}"
     df = pd.read_csv(file_path)
     with dfs_lock:
@@ -84,18 +82,18 @@ if __name__ == "__main__":
         storage_client.list_blobs(bucket_or_name=BUCKET_NAME, prefix=GCP_FOLDER_NAME)
     )
 
-    log.info(f"Scraping web data")
+    print(f"Scraping web data")
     # Using ThreadPoolExecutor to fetch stock histories concurrently
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(fetch_stock_history, dates)
 
-    log.info(f"Scraping GCP data")
+    print(f"Scraping GCP data")
     # Using ThreadPoolExecutor to download CSVs of stock history concurrently. _csvs
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(scrape_gcp_for_csvs, files)
 
     # Create the master dataframe of all stocks and their price history
-    log.info(f"Making stocks DataFrame")
+    print(f"Making stocks DataFrame")
     all_tickers_history = pd.concat(dfs)
     all_tickers_history = all_tickers_history.drop("timestamp", axis=1)
     all_tickers_history["ticker"] = all_tickers_history["ticker"].astype(str)
@@ -111,7 +109,7 @@ if __name__ == "__main__":
     all_tickers_history["date"] = pd.to_datetime(all_tickers_history["date"])
 
     # upload the data to Bigquery
-    log.info(f"Uploading to BQ")
+    print(f"Uploading to BQ")
     pandas_gbq.to_gbq(
         all_tickers_history,
         BQ_TABLE_NAME,

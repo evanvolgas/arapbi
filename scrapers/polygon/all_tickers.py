@@ -1,24 +1,21 @@
 import datetime as dt
-import logging as log
 import os
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 import pandas as pd
 import pandas_gbq
 
-from google.cloud import logging, storage
 from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_tickers"  # dataset.table
-BUCKET_NAME = "arapbi-polygon"
 CSV_FILE_NAME = "all_tickers.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
 PROJECT_ID = "new-life-400922"
-SECRET_ID = "polygon"
 WORKERS = 50
+
 
 def fetch_ticker_info(ticker):
     ticker_detail = {
@@ -45,13 +42,8 @@ def fetch_ticker_info(ticker):
 
 if __name__ == "__main__":
     # Set up client connections
-    logging_client = logging.Client()
-    logging_client.setup_logging()
-    polygon_secret = os.getenv('POLYGON_API_KEY')
-    polygon_client = RESTClient(
-        polygon_secret, retries=10, trace=False
-    )
-    storage_client = storage.Client()
+    polygon_secret = os.getenv("POLYGON_API_KEY")
+    polygon_client = RESTClient(polygon_secret, retries=10, trace=False)
 
     # Fetch Ticker Info
     tickers_active = polygon_client.list_tickers()
@@ -59,7 +51,7 @@ if __name__ == "__main__":
     dfs_lock = Lock()
 
     # Using ThreadPoolExecutor to fetch stock histories concurrently
-    log.info(f"Scraping web data")
+    print(f"Scraping web data")
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(fetch_ticker_info, tickers_active)
 
@@ -84,11 +76,30 @@ if __name__ == "__main__":
     all_tickers_df["source_feed"] = all_tickers_df["source_feed"].astype(str)
 
     # Write a CSV
-    log.info(f"Writing {GCP_FILE_NAME}")
+    print(f"Writing {GCP_FILE_NAME}")
     all_tickers_df.to_csv(f"gs://arapbi-polygon/{GCP_FILE_NAME}")
 
     # upload the data to Bigquery
-    log.info(f"Uploading {BQ_TABLE_NAME} to BQ")
+    print(f"Uploading {BQ_TABLE_NAME} to BQ")
     pandas_gbq.to_gbq(
-        all_tickers_df, BQ_TABLE_NAME, project_id=PROJECT_ID, if_exists="replace"
+        all_tickers_df,
+        BQ_TABLE_NAME,
+        project_id=PROJECT_ID,
+        if_exists="replace",
+        table_schema=[
+            {"name": "active", "type": "BOOL"},
+            {"name": "cik", "type": "STRING"},
+            {"name": "composite_figi", "type": "STRING"},
+            {"name": "currency_symbol", "type": "STRING"},
+            {"name": "base_currency_symbol", "type": "STRING"},
+            {"name": "currency_name", "type": "STRING"},
+            {"name": "base_currency_name", "type": "STRING"},
+            {"name": "locale", "type": "STRING"},
+            {"name": "title", "type": "STRING"},
+            {"name": "primary_exchange", "type": "STRING"},
+            {"name": "share_class_figi", "type": "STRING"},
+            {"name": "ticker", "type": "STRING"},
+            {"name": "type", "type": "STRING"},
+            {"name": "source_feed", "type": "STRING"},
+        ],
     )

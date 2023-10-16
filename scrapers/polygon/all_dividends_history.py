@@ -1,27 +1,25 @@
 import datetime as dt
-import logging as log
 import os
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 import pandas as pd
 import pandas_gbq
 
-from google.cloud import logging, storage
 from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_dividends_history"
-BUCKET_NAME = "arapbi-polygon"
 CSV_FILE_NAME = "all_dividends_history.csv"
 GCP_FILE_NAME = "polygon/dividends/" + CSV_FILE_NAME
 PROJECT_ID = "new-life-400922"
-SECRET_ID = "polygon"
 WORKERS = 50
 
+
 # Scrape Polygon's website for each ticker's dividend history, make a dataframe out of the result,
-# and append that dataframe to a list of all dataframes for all dividends. It will be concatenated to one dataframe below
+# and append that dataframe to a list of all dataframes for all dividends.
+# It will be concatenated to one dataframe below
 def fetch_dividend_history(ticker):
     for d in polygon_client.list_dividends(ticker):
         daily = {
@@ -39,16 +37,11 @@ def fetch_dividend_history(ticker):
 
 
 if __name__ == "__main__":
-    # Set up client connections
-    logging_client = logging.Client()
-    logging_client.setup_logging()
-    polygon_secret = os.getenv('POLYGON_API_KEY')
-    polygon_client = RESTClient(
-        polygon_secret, retries=10, trace=False
-    )
-    storage_client = storage.Client()
+    # Set up client connection
+    polygon_secret = os.getenv("POLYGON_API_KEY")
+    polygon_client = RESTClient(polygon_secret, retries=10, trace=False)
 
-    log.info(f"Querying all tickers")
+    print(f"Querying all tickers")
     sql = """
         SELECT distinct(ticker) as ticker
         FROM `raw.all_tickers` ORDER BY 1;
@@ -60,13 +53,13 @@ if __name__ == "__main__":
     dfs = []
     dfs_lock = Lock()
 
-    # Using ThreadPoolExecutor to fetch stock histories concurrently
-    log.info(f"Scraping web data")
+    # Using ThreadPoolExecutor to fetch dividends concurrently
+    print(f"Scraping web data")
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(fetch_dividend_history, all_tickers)
 
     # Create the master dataframe of all dividends and their price history
-    log.info(f"Making Dividend DataFrame")
+    print(f"Making Dividend DataFrame")
     all_dividends_history = pd.DataFrame(dfs)
     all_dividends_history["ticker"] = all_dividends_history["ticker"].astype(str)
     all_dividends_history["cash_amount"] = (
@@ -92,12 +85,11 @@ if __name__ == "__main__":
     )
 
     # Write a CSV to Google Storage
-    log.info(f"Writing {GCP_FILE_NAME}")
+    print(f"Writing {GCP_FILE_NAME}")
     all_dividends_history.to_csv(f"gs://arapbi-polygon/{GCP_FILE_NAME}")
 
     # upload the data to Bigquery
-    log.info(f"Uploading {BQ_TABLE_NAME} to BQ")
-    # add schema table_schema   https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_gbq.html
+    print(f"Uploading {BQ_TABLE_NAME} to BQ")
     pandas_gbq.to_gbq(
         all_dividends_history,
         BQ_TABLE_NAME,

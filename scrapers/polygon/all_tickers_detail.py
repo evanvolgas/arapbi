@@ -1,23 +1,19 @@
 import datetime as dt
-import logging as log
 import os
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 import pandas as pd
 import pandas_gbq
 
-from google.cloud import logging, storage
 from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_tickers_detail"  # dataset.table
-BUCKET_NAME = "arapbi-polygon"
 CSV_FILE_NAME = "all_tickers_detail.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
 PROJECT_ID = "new-life-400922"
-SECRET_ID = "polygon"
 WORKERS = 50
 
 # Scrape Polygon's website for stocks details for every ticker, make a dataframe out of the result,
@@ -76,15 +72,12 @@ def fetch_ticker_details(ticker):
 
 if __name__ == "__main__":
     # Set up client connections
-    logging_client = logging.Client()
-    logging_client.setup_logging()
     polygon_secret = os.getenv('POLYGON_API_KEY')
     polygon_client = RESTClient(
         polygon_secret, retries=10, trace=False
     )
-    storage_client = storage.Client()
 
-    log.info(f"Querying all tickers")
+    print(f"Querying all_tickers so we know which ones to scrape from Polygon")
     sql = """
         SELECT distinct(ticker) as ticker
         FROM `raw.all_tickers` ORDER BY 1;
@@ -97,7 +90,7 @@ if __name__ == "__main__":
     dfs = []
     dfs_lock = Lock()
 
-    log.info(f"Scraping web data")
+    print(f"Scraping web data")
     # Using ThreadPoolExecutor to fetch stock histories concurrently
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(fetch_ticker_details, all_tickers)
@@ -137,13 +130,45 @@ if __name__ == "__main__":
     )
 
     # Write a CSV to Google Storage
-    log.info(f"Writing {GCP_FILE_NAME}")
+    print(f"Writing {GCP_FILE_NAME}")
     all_stocks.to_csv(f"gs://arapbi-polygon/{GCP_FILE_NAME}")
 
-    log.info(f"Uploading {BQ_TABLE_NAME} to BQ")
+    print(f"Uploading {BQ_TABLE_NAME} to BQ")
     pandas_gbq.to_gbq(
         all_stocks,
         BQ_TABLE_NAME,
         project_id=PROJECT_ID,
         if_exists="replace",
+        table_schema=[
+            {"name": "active", "type": "BOOL"},
+            {"name": "address1", "type": "STRING"},
+            {"name": "address2", "type": "STRING"},
+            {"name": "city", "type": "STRING"},
+            {"name": "state", "type": "STRING"},
+            {"name": "country", "type": "STRING"},
+            {"name": "postal_code", "type": "STRING"},
+            {"name": "cik", "type": "STRING"},
+            {"name": "composite_figi", "type": "STRING"},
+            {"name": "currency_name", "type": "STRING"},
+            {"name": "description", "type": "STRING"},
+            {"name": "ticker_root", "type": "STRING"},
+            {"name": "title", "type": "STRING"},
+            {"name": "postal_code", "type": "STRING"},
+            {"name": "homepage_url", "type": "STRING"},
+            {"name": "list_date", "type": "DATE"},
+            {"name": "locale", "type": "STRING"},
+            {"name": "market", "type": "STRING"},
+            {"name": "market_cap", "type": "FLOAT"},
+            {"name": "phone_number", "type": "STRING"},
+            {"name": "primary_exchange", "type": "STRING"},
+            {"name": "share_class_figi", "type": "STRING"},
+            {"name": "share_class_shares_outstanding", "type": "INT64"},
+            {"name": "sic_code", "type": "STRING"},
+            {"name": "sic_description", "type": "STRING"},
+            {"name": "ticker", "type": "STRING"},
+            {"name": "title", "type": "STRING"},
+            {"name": "total_employees", "type": "INT64"},
+            {"name": "type", "type": "STRING"},
+            {"name": "weighted_shares_outstanding", "type": "INT64"},
+        ],
     )
