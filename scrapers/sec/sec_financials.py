@@ -93,7 +93,7 @@ if __name__ == "__main__":
         zip_file = requests.get(link)
         unzipped = unzip_response(zip_file)
         for file in unzipped:
-            if "num" in file.name:
+            if "sub" in file.name or "num" in file.name:
                 if "sub" in file.name:
                     print("processing the sub file")
                     df = pd.read_csv(
