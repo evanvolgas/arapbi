@@ -1,0 +1,52 @@
+version: 2
+
+models:
+
+  - name: stg_all_dividends_historical
+    description: "Ensure no null tickers in the dividends table; also check the primary key"
+    columns:
+      - name: ticker
+        description: "The foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || ex_dividend_date)"
+
+  - name: stg_all_ticker_types
+    description: "Test the primary key for all ticker types"
+    columns:
+      - name: code
+        description: "The primary key for this table"
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_all_tickers_detail
+    description: "test the primary key for the tickers detail table. Cardinality tests are not possible here because of missing data on Polygon's side. https://github.com/polygon-io/issues/issues/272#issuecomment-1760544659"
+    columns:
+      - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_all_tickers_historical
+    description: "Enforce non null and test the compound primary key"
+    columns:
+      - name: ticker
+        description: "The foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || date)"
+
+  - name: stg_all_tickers
+    description: "Test all tickers for uniqueness and non nullity; this won't work if we add inactive tickers, though, but there will be duplicates if we do"
+    columns:
+      - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - not_null
+          - unique
