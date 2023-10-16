@@ -57,8 +57,6 @@ def scrape_gcp_for_csvs(file):
 
 if __name__ == "__main__":
     # Set up client connections
-    logging_client = logging.Client()
-    logging_client.setup_logging()
     polygon_secret = os.getenv('POLYGON_API_KEY')
     polygon_client = RESTClient(
         polygon_secret, retries=10, trace=False
