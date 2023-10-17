@@ -7,7 +7,7 @@ SELECT
     a.year,
     a.quarter,
     a.volume_weighted_average_price,
-    a.avg_cash_amount,
+    case when a.avg_cash_amount is null then 0 else a.avg_cash_amount end as avg_cash_amount,
     a.avg_weighted_shares_outstanding,
     a.avg_transactions,
     a.avg_volume,

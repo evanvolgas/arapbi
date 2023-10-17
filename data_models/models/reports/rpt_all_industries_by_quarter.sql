@@ -3,7 +3,7 @@ SELECT
     year,
     extract(quarter from date) as quarter,
     avg(volume_weighted_average_price) as volume_weighted_average_price,
-    avg(cash_amount) AS avg_cash_amount,
+    avg(case when cash_amount is null then 0 else cash_amount end) AS avg_cash_amount,
     avg(weighted_shares_outstanding) as avg_weighted_shares_outstanding,
     count(distinct ticker) as num_tickers,
     avg(transactions) AS avg_transactions,

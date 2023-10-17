@@ -19,5 +19,19 @@ with source_data as (
     GROUP BY 1, 2, 3, 4, 5
 )
 
-select *
-from source_data
+SELECT
+    ticker,
+    title,
+    type,
+    cik,
+    sic_description,
+    volume_weighted_average_price,
+    case when avg_cash_amount is null then 0 else avg_cash_amount end as avg_cash_amount,
+    avg_weighted_shares_outstanding,
+    num_tickers,
+    avg_transactions,
+    avg_volume,
+    min_date,
+    max_date,
+    number_days
+FROM source_data
