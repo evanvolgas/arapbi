@@ -21,4 +21,3 @@ SELECT
     avg_volume
 FROM a
 ORDER BY 1
-

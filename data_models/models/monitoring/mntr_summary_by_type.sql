@@ -7,4 +7,3 @@ SELECT
 FROM {{ ref('int_all_tickers_and_dividends_historical') }}
 WHERE year > 2018
 GROUP BY 1
-
