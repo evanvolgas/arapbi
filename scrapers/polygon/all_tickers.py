@@ -10,7 +10,7 @@ import pandas_gbq
 from polygon import RESTClient
 
 # Constants
-BQ_TABLE_NAME = "raw.all_tickers"  # dataset.table
+BQ_TABLE_NAME = "raw.all_tickers"
 CSV_FILE_NAME = "all_tickers.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
 PROJECT_ID = "new-life-400922"

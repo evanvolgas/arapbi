@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Check the command passed as an argument
+# Use the Docker run argument to construct an actual task
 if [ "$1" = "all_dividends_history" ]; then
     python scrapers/polygon/all_dividends_history.py
 elif [ "$1" = "all_ticker_types" ]; then

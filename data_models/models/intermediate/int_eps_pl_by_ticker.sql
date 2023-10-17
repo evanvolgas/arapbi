@@ -27,4 +27,3 @@ AND a.year = b.year
 AND a.quarter = b.quarter
 GROUP BY 1, 2, 3
 ORDER BY 1, 2, 3
-

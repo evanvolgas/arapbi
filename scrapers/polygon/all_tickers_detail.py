@@ -10,14 +10,14 @@ import pandas_gbq
 from polygon import RESTClient
 
 # Constants
-BQ_TABLE_NAME = "raw.all_tickers_detail"  # dataset.table
+BQ_TABLE_NAME = "raw.all_tickers_detail"
 CSV_FILE_NAME = "all_tickers_detail.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
 PROJECT_ID = "new-life-400922"
 WORKERS = 50
 
 # Scrape Polygon's website for stocks details for every ticker, make a dataframe out of the result,
-# and append that dataframe to a list of all dataframes for all stocks. It will be concatenated to one dataframe below
+# and append that dataframe to a list of all dataframes for all stocks. It will be concatenated to one dataframe below.
 
 
 def fetch_ticker_details(ticker):

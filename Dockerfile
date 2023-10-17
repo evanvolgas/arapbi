@@ -3,6 +3,6 @@ RUN apt-get update -y
 COPY requirements.txt /
 RUN pip install -r /requirements.txt
 COPY . /app
-WORKDIR /app
 RUN chmod +x /app/entrypoint.sh
+WORKDIR /app
 ENTRYPOINT ["/app/entrypoint.sh"]
