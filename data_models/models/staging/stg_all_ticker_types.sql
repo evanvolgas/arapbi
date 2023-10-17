@@ -7,5 +7,3 @@ SELECT
 FROM raw.all_ticker_types
 )
 SELECT * FROM source_data
-
-

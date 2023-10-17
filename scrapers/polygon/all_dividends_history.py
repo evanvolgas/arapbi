@@ -19,7 +19,7 @@ WORKERS = 50
 
 # Scrape Polygon's website for each ticker's dividend history, make a dataframe out of the result,
 # and append that dataframe to a list of all dataframes for all dividends.
-# It will be concatenated to one dataframe below
+# It will be concatenated to one dataframe below.
 def fetch_dividend_history(ticker):
     for d in polygon_client.list_dividends(ticker):
         daily = {

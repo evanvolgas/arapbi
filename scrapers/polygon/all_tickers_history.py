@@ -13,14 +13,14 @@ from polygon import RESTClient
 # TODO Make this incremental
 
 # Constants
-BQ_TABLE_NAME = "raw.all_tickers_history"  # dataset.table
+BQ_TABLE_NAME = "raw.all_tickers_history"
 BUCKET_NAME = "arapbi-polygon"
 GCP_FOLDER_NAME = "polygon/tickers/"
 PROJECT_ID = "new-life-400922"
 WORKERS = 50
 
 # Scrape Polygon's website for stocks history for every ticker, make a dataframe out of the result,
-# and append that dataframe to a list of all dataframes for all stocks. It will be concatenated to one dataframe below
+# and append that dataframe to a list of all dataframes for all stocks. It will be concatenated to one dataframe below.
 def fetch_stock_history(d):
     aggs = []
     for a in polygon_client.get_grouped_daily_aggs(d):
