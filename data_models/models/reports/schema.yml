@@ -1,0 +1,27 @@
+
+version: 2
+
+models:
+
+  - name: rpt_all_industries_by_quarter
+    description: "Ensure that the primary key for our all tickers history summary table is unique and non null"
+    tests:
+      - unique:
+          column_name: "(sic_description || '-' || year || '-'  || quarter )"
+
+  - name: rpt_all_industries_history_summary
+    description: "Ensure that the primary key for our all tickers history summary table is unique and non null"
+    columns:
+      - name: sic_description
+        description: "The primary key for this table"
+        tests:
+          - unique
+
+  - name: rpt_all_tickers_history_summary
+    description: "Ensure that the primary key for our all tickers history summary table is unique and non null"
+    columns:
+      - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null

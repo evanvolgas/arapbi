@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_all_tickers_and_dividends_historical
+    description: "PK tests; Test to ensure that the cardinality of the new history table has the same cardinality as the original"
+    columns:
+      - name: ticker
+        tests:
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: ticker
+              to: ref('stg_all_tickers_historical')
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || date )"
+
+  - name: int_eps_pl_by_ticker
+    description: "Test to ensure that the pk is correct"
+    columns:
+      - name: cik
+        description: "The primary key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(cik || '-' || year || '-' || quarter )"
+
+  - name: int_all_tickers_by_quarter
+    description: "Test to ensure Pk"
+    columns:
+      - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || year || '-' || quarter )"
