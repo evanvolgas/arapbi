@@ -21,4 +21,13 @@ pandas_gbq.to_gbq(
     "raw.calendar",
     project_id=PROJECT_ID,
     if_exists="replace",
+    table_schema=[
+        {"name": "date", "type": "DATE"},
+        {"name": "year", "type": "INT64"},
+        {"name": "quarter", "type": "INT64"},
+        {"name": "month", "type": "INT64"},
+        {"name": "day", "type": "INT64"},
+        {"name": "day_name", "type": "STRING"},
+        {"name": "day_of_week", "type": "INT64"},
+    ],
 )
