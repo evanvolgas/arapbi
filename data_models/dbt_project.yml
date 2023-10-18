@@ -34,7 +34,5 @@ models:
       +materialized: view
     reports:
       +materialized: table
-    monitoring:
-      +materialized: view
     staging:
       +materialized: view
