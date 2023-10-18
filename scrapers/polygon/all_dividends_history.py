@@ -66,13 +66,13 @@ if __name__ == "__main__":
         all_dividends_history["cash_amount"].fillna(0).astype(float)
     )
     all_dividends_history["currency"] = (
-        all_dividends_history["currency"].fillna(0).astype(str)
+        all_dividends_history["currency"].astype(str)
     )
     all_dividends_history["declaration_date"] = pd.to_datetime(
         all_dividends_history["declaration_date"]
     )
     all_dividends_history["dividend_type"] = (
-        all_dividends_history["dividend_type"].fillna(0).astype(str)
+        all_dividends_history["dividend_type"].astype(str)
     )
     all_dividends_history["ex_dividend_date"] = pd.to_datetime(
         all_dividends_history["ex_dividend_date"]
