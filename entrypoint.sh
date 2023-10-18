@@ -16,7 +16,7 @@ elif [ "$1" = "sec_financials" ]; then
 elif [ "$1" = "sec_tickers" ]; then
     python scrapers/sec/sec_tickers.py
 elif [ "$1" = "run" ]; then
-    cd data_models && && dbt deps && dbt run
+    cd data_models && dbt deps && dbt run
 elif [ "$1" = "test" ]; then
     cd data_models && dbt deps && dbt test
 else
