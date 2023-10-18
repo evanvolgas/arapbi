@@ -9,6 +9,18 @@ models:
       - unique:
           column_name: "(sic_description || '-' || year || '-'  || quarter )"
 
+  - name: rpt_all_tickers_by_quarter
+    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || year || '-'  || quarter )"
+
+  - name: rpt_all_types_by_quarter
+    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    tests:
+      - unique:
+          column_name: "(type || '-' || year || '-'  || quarter )"
+
   - name: rpt_all_industries_history_summary
     description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
     columns:
@@ -21,6 +33,15 @@ models:
     description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
     columns:
       - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+
+  - name: rpt_all_types_history_summary
+    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    columns:
+      - name: type
         description: "The primary key for this table"
         tests:
           - unique
