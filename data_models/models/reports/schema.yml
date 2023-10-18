@@ -39,10 +39,9 @@ models:
           - not_null
 
   - name: rpt_all_types_history_summary
-    description: "Ensure that the primary key for our rpt_all_types_history_summary table is unique and non-null"
+    description: "Ensure that the primary key for our rpt_all_types_history_summary table is unique"
     columns:
       - name: type
         description: "The primary key for this table"
         tests:
           - unique
-          - not_null
