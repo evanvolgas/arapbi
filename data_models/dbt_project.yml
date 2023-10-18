@@ -34,5 +34,7 @@ models:
       +materialized: view
     reports:
       +materialized: table
+    research:
+      +materialized: table
     staging:
       +materialized: view

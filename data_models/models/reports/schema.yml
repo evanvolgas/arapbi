@@ -4,33 +4,33 @@ version: 2
 models:
 
   - name: rpt_all_industries_by_quarter
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    description: "Ensure that the primary key for our rpt_all_industries_by_quarter summary table is unique and non-null"
     tests:
       - unique:
           column_name: "(sic_description || '-' || year || '-'  || quarter )"
 
   - name: rpt_all_tickers_by_quarter
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    description: "Ensure that the primary key for our rpt_all_tickers_by_quarter table is unique and non-null"
     tests:
       - unique:
           column_name: "(ticker || '-' || year || '-'  || quarter )"
 
   - name: rpt_all_types_by_quarter
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    description: "Ensure that the primary key for our rpt_all_types_by_quarter table is unique and non-null"
     tests:
       - unique:
           column_name: "(type || '-' || year || '-'  || quarter )"
 
   - name: rpt_all_industries_history_summary
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    description: "Ensure that the key for our rpt_all_industries_history_summary table is unique and non-null"
     columns:
       - name: sic_description
-        description: "The primary key for this table"
+        description: "The grain of this table, with nulls"
         tests:
           - unique
 
   - name: rpt_all_tickers_history_summary
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    description: "Ensure that the primary key for our rpt_all_tickers_history_summary table is unique and non-null"
     columns:
       - name: ticker
         description: "The primary key for this table"
@@ -39,7 +39,7 @@ models:
           - not_null
 
   - name: rpt_all_types_history_summary
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
+    description: "Ensure that the primary key for our rpt_all_types_history_summary table is unique and non-null"
     columns:
       - name: type
         description: "The primary key for this table"
