@@ -16,9 +16,6 @@ models:
         description: "Ensure the primary key is what it should be"
         tests:
           - not_null
-
-  - name: res_tickers_history
-    description: "Ensure that the primary key for our res_tickers_history summary table is unique and non-null"
     tests:
       - unique:
           column_name: "(ticker || '-' || date )"
