@@ -14,7 +14,7 @@ with source_data as (
         transactions AS transactions,
         volume AS volume
     FROM {{ ref('int_all_tickers_and_dividends_historical') }}
-    WHERE ticker in ('META', 'AAPL', "AMZN", "NFLX", "GOOGL", "MSFT")
+    WHERE ticker in ('META', 'FB', 'AAPL', "AMZN", "NFLX", "GOOGL", "MSFT")
 )
 
 SELECT * FROM source_data
