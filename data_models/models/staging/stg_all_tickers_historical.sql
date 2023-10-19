@@ -7,8 +7,9 @@ SELECT
     volume,
     transactions,
     date,
-    EXTRACT(YEAR from date) as year
-
+    EXTRACT(YEAR from date) as year,
+    EXTRACT(MONTH from date) as month,
+    EXTRACT(quarter from date) as quarter
 FROM raw.all_tickers_history
 )
 SELECT * FROM source_data

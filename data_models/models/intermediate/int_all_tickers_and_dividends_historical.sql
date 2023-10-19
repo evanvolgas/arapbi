@@ -37,7 +37,9 @@ SELECT
     transactions,
     volume,
     date,
-    year
+    year,
+    month,
+    quarter
 FROM {{ ref('stg_all_tickers_historical') }}
 ), dividends AS
 (
@@ -77,6 +79,8 @@ SELECT
     history.volume,
     history.date,
     history.year,
+    history.month,
+    history.quarter,
     dividends.cash_amount,
     dividends.currency,
     dividends.declaration_date,

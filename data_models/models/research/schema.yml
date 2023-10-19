@@ -19,3 +19,14 @@ models:
     tests:
       - unique:
           column_name: "(ticker || '-' || date )"
+
+  - name: res_tickers_by_month
+    description: "Ensure that the ticker column is not null and unique"
+    columns:
+      - name: ticker
+        description: "Ensure the primary key is what it should be"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || year || '-' || month )"
