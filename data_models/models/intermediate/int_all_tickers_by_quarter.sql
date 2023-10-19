@@ -5,7 +5,7 @@ SELECT
     cik,
     sic_description,
     year,
-    extract(quarter from date) as quarter,
+    quarter,
     avg(volume_weighted_average_price) as volume_weighted_average_price,
     avg(cash_amount) AS avg_cash_amount,
     avg(weighted_shares_outstanding) as avg_weighted_shares_outstanding,
