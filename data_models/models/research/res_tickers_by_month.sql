@@ -8,7 +8,7 @@ with source_data as (
         sic_description,
         year,
         month,
-        max(date) as date,
+        min(date) as date,
         avg(volume_weighted_average_price) as volume_weighted_average_price,
         avg(cash_amount) AS cash_amount,
         avg(weighted_shares_outstanding) as weighted_shares_outstanding,
