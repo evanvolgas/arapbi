@@ -54,7 +54,6 @@ def fetch_financials(ticker="AAPL"):
         with dfs_lock:
             dfs.append(daily)
 
-
 if __name__ == "__main__":
     # Set up client connection
     polygon_secret = os.getenv("POLYGON_API_KEY")
@@ -92,7 +91,7 @@ if __name__ == "__main__":
     ].astype(str)
     all_financials_history["fiscal_year"] = all_financials_history[
         "fiscal_year"
-    ].astype(int, errors="ignore")
+    ].replace(r'^\s*$', 0, regex=True).fillna(0).astype(int)
     all_financials_history["cik"] = all_financials_history["cik"].astype(str)
     all_financials_history["company_name"] = all_financials_history[
         "company_name"
@@ -102,7 +101,7 @@ if __name__ == "__main__":
     ].astype(str)
     all_financials_history["cash_flow_value"] = all_financials_history[
         "cash_flow_value"
-    ].astype(int, errors="ignore")
+    ].replace(r'^\s*$', 0, regex=True).fillna(0).astype(int)
     all_financials_history["cash_flow_unit"] = all_financials_history[
         "cash_flow_unit"
     ].astype(str)
@@ -118,4 +117,18 @@ if __name__ == "__main__":
         BQ_TABLE_NAME,
         project_id=PROJECT_ID,
         if_exists="replace",
+        table_schema=[
+            {"name": "ticker", "type": "STRING"},
+            {"name": "start_date", "type": "DATE"},
+            {"name": "end_date", "type": "DATE"},
+            {"name": "fiscal_period", "type": "STRING"},
+            {"name": "fiscal_year", "type": "INT64"},
+            {"name": "cik", "type": "STRING"},
+            {"name": "company_name", "type": "STRING"},
+            {"name": "cash_flow_label", "type": "STRING"},
+            {"name": "cash_flow_value", "type": "FLOAT"},
+            {"name": "cash_flow_unit", "type": "STRING"},
+        ],
     )
+
+
