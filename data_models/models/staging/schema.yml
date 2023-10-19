@@ -50,3 +50,15 @@ models:
         tests:
           - not_null
           - unique
+
+
+  - name: stg_all_financials_history
+    description: "Enforce non null and test the compound primary key"
+    columns:
+      - name: ticker
+        description: "The foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || start_date || '-' || end_date || '-' || fiscal_period)"

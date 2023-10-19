@@ -11,6 +11,8 @@ elif [ "$1" = "all_tickers_detail" ]; then
     python scrapers/polygon/all_tickers_detail.py
 elif [ "$1" = "all_tickers_history" ]; then
     python scrapers/polygon/all_tickers_history.py
+elif [ "$1" = "all_financials" ]; then
+    python scrapers/polygon/all_financials.py
 elif [ "$1" = "sec_financials" ]; then
     python scrapers/sec/sec_financials.py
 elif [ "$1" = "sec_tickers" ]; then
