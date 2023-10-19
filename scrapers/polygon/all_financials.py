@@ -27,6 +27,7 @@ def fetch_financials(ticker="AAPL"):
             "ticker": ticker,
             "start_date": d.start_date,
             "end_date": d.end_date,
+            "filing_date": d.filing_date,
             "fiscal_period": d.fiscal_period,
             "fiscal_year": d.fiscal_year,
             "cik": d.cik,
@@ -86,6 +87,9 @@ if __name__ == "__main__":
     all_financials_history["end_date"] = pd.to_datetime(
         all_financials_history["end_date"]
     )
+    all_financials_history["filing_date"] = pd.to_datetime(
+        all_financials_history["filing_date"]
+    )
     all_financials_history["fiscal_period"] = all_financials_history[
         "fiscal_period"
     ].astype(str)
@@ -121,6 +125,7 @@ if __name__ == "__main__":
             {"name": "ticker", "type": "STRING"},
             {"name": "start_date", "type": "DATE"},
             {"name": "end_date", "type": "DATE"},
+            {"name": "filing_date", "type": "DATE"},
             {"name": "fiscal_period", "type": "STRING"},
             {"name": "fiscal_year", "type": "INT64"},
             {"name": "cik", "type": "STRING"},
@@ -130,5 +135,3 @@ if __name__ == "__main__":
             {"name": "cash_flow_unit", "type": "STRING"},
         ],
     )
-
-

@@ -3,6 +3,7 @@ SELECT
     ticker,
     start_date,
     end_date,
+    filing_date,
     fiscal_period,
     fiscal_year,
     cik,
