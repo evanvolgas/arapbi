@@ -9,3 +9,5 @@ polygon_rewrite.py
 __pycache__/
 *.py[cod]
 *$py.class
+analysis/ad_hoc.ipynb
+analysis/.ipynb_checkpoints/ad_hoc-checkpoint.ipynb
