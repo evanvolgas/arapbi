@@ -11,15 +11,17 @@ SELECT
     a.avg_weighted_shares_outstanding,
     a.avg_transactions,
     a.avg_volume,
-    a.min_dt,
-    a.max_dt,
     a.number_days_in_quarter,
-    b.earnings_per_share_basic,
-    b.earnings_per_share_diluted,
-    b.profit_loss
+    b.start_date as quarter_start_date,
+    b.end_date as quarter_end_date,
+    b.cash_flow_unit,
+    b.cash_flow_value,
+    b.cash_flow_label
 FROM {{ ref('int_all_tickers_by_quarter') }} AS a
-LEFT JOIN {{ ref('int_eps_pl_by_ticker') }} AS b
-ON a.cik = b.cik
-AND a.year = b.year
-AND a.quarter = b.quarter
-ORDER BY a.ticker, a.title, a.type, a.min_dt
+LEFT JOIN  {{ ref('stg_all_financials_history') }} as b
+    on a.min_dt >= b.start_date - 5
+    and a.max_dt <= b.end_date + 5
+    and a.ticker = b.ticker
+    and a.cik = b.cik
+    and concat("Q",a.quarter) = b.fiscal_period
+ORDER BY a.ticker, a.title, a.type, b.start_date

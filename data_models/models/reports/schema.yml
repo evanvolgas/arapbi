@@ -13,7 +13,7 @@ models:
     description: "Ensure that the primary key for our rpt_all_tickers_by_quarter table is unique and non-null"
     tests:
       - unique:
-          column_name: "(ticker || '-' || year || '-'  || quarter )"
+          column_name: "(ticker || '-' || cik || '-' || year || '-'  || quarter || quarter_start_date || '-' || quarter_end_date)"
 
   - name: rpt_all_types_by_quarter
     description: "Ensure that the primary key for our rpt_all_types_by_quarter table is unique and non-null"

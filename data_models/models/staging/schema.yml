@@ -61,4 +61,4 @@ models:
           - not_null
     tests:
       - unique:
-          column_name: "(ticker || '-' || start_date || '-' || end_date || '-' || fiscal_period)"
+          column_name: "(ticker || '-' || cik || '-' || start_date || '-' || end_date || '-' || fiscal_period)"
