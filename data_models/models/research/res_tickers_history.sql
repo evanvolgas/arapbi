@@ -9,6 +9,7 @@ with source_data as (
         date,
         month,
         quarter,
+        year,
         volume_weighted_average_price as volume_weighted_average_price,
         cash_amount AS cash_amount,
         weighted_shares_outstanding as weighted_shares_outstanding,
