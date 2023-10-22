@@ -6,7 +6,12 @@ models:
     description: "Ensure no null tickers in the dividends table; also check the primary key"
     columns:
       - name: ticker
-        description: "The foreign key for this table"
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+    columns:
+      - name: declaration_date
+        description: "A foreign key for this table"
         tests:
           - not_null
     tests:
