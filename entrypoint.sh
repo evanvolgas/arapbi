@@ -1,7 +1,9 @@
 #!/bin/sh
 
 # Use the Docker run argument to construct an actual task
-if [ "$1" = "all_dividends_history" ]; then
+if [ "$1" = "all_crypto_history" ]; then
+    python scrapers/polygon/all_crypto_history.py
+elif [ "$1" = "all_dividends_history" ]; then
     python scrapers/polygon/all_dividends_history.py
 elif [ "$1" = "all_ticker_types" ]; then
     python scrapers/polygon/all_ticker_types.py
