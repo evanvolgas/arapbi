@@ -1,10 +1,9 @@
 logs/*
-*.csv
 *.json
 *.icloud
 .DS_Store
-secrets_define.py
-polygon_rewrite.py
+terraform/.terraform/*
+terraform/.terraform.lock.hcl
 *.pyc
 __pycache__/
 *.py[cod]
