@@ -1,6 +1,25 @@
 version: 2
 
 models:
+  - name: int_all_crypto_historical
+    description: "PK tests; Test to ensure that the cardinality of the new history table has the same cardinality as the original"
+    columns:
+      - name: date
+        tests:
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: date
+              to: ref('stg_all_crypto_historical')
+      - name: ticker
+        tests:
+          - not_null
+          - dbt_utils.cardinality_equality:
+              field: ticker
+              to: ref('stg_all_crypto_historical')
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || date )"
+
   - name: int_all_tickers_and_dividends_historical
     description: "PK tests; Test to ensure that the cardinality of the new history table has the same cardinality as the original"
     columns:
