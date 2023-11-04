@@ -1,3 +1,9 @@
+{{
+  config(
+    cluster_by = ["ticker", "year", "quarter"],
+  )
+}}
+
 SELECT
     a.ticker,
     a.title,
@@ -24,4 +30,3 @@ LEFT JOIN  {{ ref('stg_all_financials_history') }} as b
     and a.ticker = b.ticker
     and a.cik = b.cik
     and concat("Q",a.quarter) = b.fiscal_period
-ORDER BY a.ticker, a.title, a.type, b.start_date

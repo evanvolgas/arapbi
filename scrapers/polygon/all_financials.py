@@ -4,9 +4,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
-import numpy as np
 import pandas as pd
-import pandas_gbq
 
 from polygon import RESTClient
 

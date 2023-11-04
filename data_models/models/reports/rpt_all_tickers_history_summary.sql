@@ -1,3 +1,9 @@
+{{
+  config(
+    cluster_by = ["ticker", "title", "cik"],
+  )
+}}
+
 with source_data as (
 
     SELECT

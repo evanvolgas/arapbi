@@ -1,3 +1,8 @@
+{{
+  config(
+    cluster_by = ["sic_description"],
+  )
+}}
 
 with a as (
 SELECT
@@ -20,4 +25,3 @@ SELECT
     avg_transactions,
     avg_volume
 FROM a
-ORDER BY 1

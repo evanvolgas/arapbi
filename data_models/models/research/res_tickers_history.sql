@@ -1,3 +1,9 @@
+{{
+  config(
+    cluster_by = ["ticker", "date"],
+  )
+}}
+
 with source_data as (
 
     SELECT
@@ -20,4 +26,3 @@ with source_data as (
 )
 
 SELECT * FROM source_data
-ORDER BY ticker, date

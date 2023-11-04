@@ -7,9 +7,8 @@ terraform {
   }
 }
 
-provider "google" {
+provider "gcp" {
   credentials = file("terraform.json")
-
   project = "new-life-400922"
   region  = "us-west1"
   zone    = "us-west1"

@@ -1,3 +1,9 @@
+{{
+  config(
+    cluster_by = ["type", "year", "quarter"],
+  )
+}}
+
 SELECT
     type,
     year,
@@ -13,4 +19,3 @@ SELECT
     count(distinct date) as number_days_in_quarter
 FROM {{ ref('int_all_tickers_and_dividends_historical') }}
 GROUP BY 1, 2, 3
-ORDER BY 1, 2, 3
