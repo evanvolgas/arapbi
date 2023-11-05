@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 import pandas as pd
+import pandas_gbq
 
 from google.cloud import storage
 from polygon import RESTClient

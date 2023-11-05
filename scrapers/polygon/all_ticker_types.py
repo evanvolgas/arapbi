@@ -2,6 +2,7 @@ import datetime as dt
 import os
 
 import pandas as pd
+import pandas_gbq
 
 from polygon import RESTClient
 
