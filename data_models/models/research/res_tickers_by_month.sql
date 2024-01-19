@@ -29,10 +29,8 @@ with source_data as (
                      "MSFT",
                      "NVDA",
                      "ADBE",
-                     "DELL",
                      "INTC",
                      "CRM",
-                     "SONY",
                      "THCHY",
                      "ORCL",
                      "INTU")
