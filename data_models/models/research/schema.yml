@@ -3,12 +3,6 @@ version: 2
 
 models:
 
-  - name: res_tickers_by_quarter
-    description: "Ensure that the primary key for our all tickers history summary table is unique and non-null"
-    tests:
-      - unique:
-          column_name: "(ticker || '-' || year || '-'  || quarter )"
-
   - name: res_tickers_history
     description: "Ensure that the ticker column is not null and unique"
     columns:

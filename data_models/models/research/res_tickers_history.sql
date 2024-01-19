@@ -7,7 +7,7 @@
 with source_data as (
 
     SELECT
-        ticker,
+        case when ticker = "FB" THEN "META" ELSE ticker END AS ticker,
         title,
         type,
         cik,
@@ -22,7 +22,21 @@ with source_data as (
         transactions AS transactions,
         volume AS volume
     FROM {{ ref('int_all_tickers_and_dividends_historical') }}
-    WHERE ticker in ('META', 'FB', 'AAPL', "AMZN", "NFLX", "GOOGL", "MSFT", "KO", "SFIX", "SNAP")
+    WHERE ticker in ("FB",
+                     'AAPL',
+                     "AMZN",
+                     "NFLX",
+                     "GOOGL",
+                     "MSFT",
+                     "NVDA",
+                     "ADBE",
+                     "DELL",
+                     "INTC",
+                     "CRM",
+                     "SONY",
+                     "THCHY",
+                     "ORCL",
+                     "INTU")
+      OR (ticker = 'META' and date >='2022-06-09')
 )
-
 SELECT * FROM source_data
