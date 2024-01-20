@@ -22,19 +22,23 @@ with source_data as (
         transactions AS transactions,
         volume AS volume
     FROM {{ ref('int_all_tickers_and_dividends_historical') }}
-    WHERE ticker in ("FB",
-                     'AAPL',
-                     "AMZN",
-                     "NFLX",
-                     "GOOGL",
-                     "MSFT",
-                     "NVDA",
-                     "ADBE",
-                     "INTC",
-                     "CRM",
-                     "THCHY",
-                     "ORCL",
-                     "INTU")
+    WHERE ticker in ( "AAPL",
+                      "ADBE",
+                      "AMD",
+                      "AMZN",
+                      "ASML",
+                      "AVGO",
+                      "CRM",
+                      "FB",
+                      "GOOGL",
+                      "INTC",
+                      "INTU",
+                      "MSFT",
+                      "NFLX",
+                      "NVDA",
+                      "ORCL",
+                      "TSLA",
+                      "TSM")
       OR (ticker = 'META' and date >='2022-06-09')
 )
 SELECT * FROM source_data

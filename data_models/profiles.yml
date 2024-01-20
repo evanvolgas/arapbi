@@ -9,6 +9,6 @@ data_models:
       method: service-account
       priority: interactive
       project: new-life-400922
-      threads: 1
+      threads: 8
       type: bigquery
   target: dev
