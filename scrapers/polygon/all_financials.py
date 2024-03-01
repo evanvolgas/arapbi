@@ -20,7 +20,7 @@ WORKERS = 50
 # Scrape Polygon's website for each ticker's dividend history, make a dataframe out of the result,
 # and append that dataframe to a list of all dataframes for all dividends.
 # It will be concatenated to one dataframe below.
-def fetch_financials(ticker="AAPL"):
+def fetch_financials(ticker: str = "AAPL") -> None:
     for d in polygon_client.vx.list_stock_financials(ticker):
         daily = {
             "ticker": ticker,
@@ -53,6 +53,7 @@ def fetch_financials(ticker="AAPL"):
 
         with dfs_lock:
             dfs.append(daily)
+
 
 if __name__ == "__main__":
     # Set up client connection
@@ -92,9 +93,12 @@ if __name__ == "__main__":
     all_financials_history["fiscal_period"] = all_financials_history[
         "fiscal_period"
     ].astype(str)
-    all_financials_history["fiscal_year"] = all_financials_history[
-        "fiscal_year"
-    ].replace(r'^\s*$', 0, regex=True).fillna(0).astype(int)
+    all_financials_history["fiscal_year"] = (
+        all_financials_history["fiscal_year"]
+        .replace(r"^\s*$", 0, regex=True)
+        .fillna(0)
+        .astype(int)
+    )
     all_financials_history["cik"] = all_financials_history["cik"].astype(str)
     all_financials_history["company_name"] = all_financials_history[
         "company_name"
@@ -102,9 +106,12 @@ if __name__ == "__main__":
     all_financials_history["cash_flow_label"] = all_financials_history[
         "cash_flow_label"
     ].astype(str)
-    all_financials_history["cash_flow_value"] = all_financials_history[
-        "cash_flow_value"
-    ].replace(r'^\s*$', 0, regex=True).fillna(0).astype(int)
+    all_financials_history["cash_flow_value"] = (
+        all_financials_history["cash_flow_value"]
+        .replace(r"^\s*$", 0, regex=True)
+        .fillna(0)
+        .astype(int)
+    )
     all_financials_history["cash_flow_unit"] = all_financials_history[
         "cash_flow_unit"
     ].astype(str)

@@ -20,7 +20,7 @@ WORKERS = 50
 # and append that dataframe to a list of all dataframes for all stocks. It will be concatenated to one dataframe below.
 
 
-def fetch_ticker_details(ticker):
+def fetch_ticker_details(ticker: str) -> None:
     # logger.log_text(f'Retrieving stocks data for {ticker} // {title}')
 
     aggs = []
@@ -72,10 +72,8 @@ def fetch_ticker_details(ticker):
 
 if __name__ == "__main__":
     # Set up client connections
-    polygon_secret = os.getenv('POLYGON_API_KEY')
-    polygon_client = RESTClient(
-        polygon_secret, retries=10, trace=False
-    )
+    polygon_secret = os.getenv("POLYGON_API_KEY")
+    polygon_client = RESTClient(polygon_secret, retries=10, trace=False)
 
     print(f"Querying all_tickers so we know which ones to scrape from Polygon")
     sql = """

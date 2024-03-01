@@ -20,7 +20,7 @@ WORKERS = 50
 # Scrape Polygon's website for each ticker's dividend history, make a dataframe out of the result,
 # and append that dataframe to a list of all dataframes for all dividends.
 # It will be concatenated to one dataframe below.
-def fetch_dividend_history(ticker):
+def fetch_dividend_history(ticker: str) -> None:
     for d in polygon_client.list_dividends(ticker):
         daily = {
             "ticker": ticker,
@@ -65,15 +65,13 @@ if __name__ == "__main__":
     all_dividends_history["cash_amount"] = (
         all_dividends_history["cash_amount"].fillna(0).astype(float)
     )
-    all_dividends_history["currency"] = (
-        all_dividends_history["currency"].astype(str)
-    )
+    all_dividends_history["currency"] = all_dividends_history["currency"].astype(str)
     all_dividends_history["declaration_date"] = pd.to_datetime(
         all_dividends_history["declaration_date"]
     )
-    all_dividends_history["dividend_type"] = (
-        all_dividends_history["dividend_type"].astype(str)
-    )
+    all_dividends_history["dividend_type"] = all_dividends_history[
+        "dividend_type"
+    ].astype(str)
     all_dividends_history["ex_dividend_date"] = pd.to_datetime(
         all_dividends_history["ex_dividend_date"]
     )

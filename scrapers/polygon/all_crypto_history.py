@@ -24,7 +24,7 @@ polygon_secret = os.getenv("POLYGON_API_KEY")
 polygon_client = RESTClient(polygon_secret, retries=10, trace=False)
 
 
-def fetch_crypto_history(d):
+def fetch_crypto_history(d: str) -> None:
     aggs = []
     for a in polygon_client.get_grouped_daily_aggs(
         d, locale="global", market_type="crypto"
@@ -53,7 +53,7 @@ def fetch_crypto_history(d):
         print(f"No crypto data for {d}")
 
 
-def scrape_gcp_for_csvs(file):
+def scrape_gcp_for_csvs(file: str) -> None:
     print(f"Downloading {file.name}")
     file_path = f"gs://{file.bucket.name}/{file.name}"
     df = pd.read_csv(file_path)
@@ -84,18 +84,18 @@ if __name__ == "__main__":
         storage_client.list_blobs(bucket_or_name=BUCKET_NAME, prefix=GCP_FOLDER_NAME)
     )
 
-    print(f"Scraping web data")
+    print("Scraping web data")
     # Using ThreadPoolExecutor to fetch stock histories concurrently
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(fetch_crypto_history, dates)
 
-    print(f"Scraping GCP data")
+    print("Scraping GCP data")
     # Using ThreadPoolExecutor to download CSVs of stock history concurrently. _csvs
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         executor.map(scrape_gcp_for_csvs, files)
 
     # Create the master dataframe of all stocks and their price history
-    print(f"Making crypto DataFrame")
+    print("Making crypto DataFrame")
     all_crypto_history = pd.concat(dfs)
     all_crypto_history = all_crypto_history.drop("timestamp", axis=1)
     all_crypto_history["ticker"] = all_crypto_history["ticker"].astype(str)
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     all_crypto_history["date"] = pd.to_datetime(all_crypto_history["date"])
 
     # upload the data to Bigquery
-    print(f"Uploading to BQ")
+    print("Uploading to BQ")
     pandas_gbq.to_gbq(
         all_crypto_history,
         BQ_TABLE_NAME,

@@ -17,7 +17,7 @@ PROJECT_ID = "new-life-400922"
 WORKERS = 50
 
 
-def fetch_ticker_info(ticker):
+def fetch_ticker_info(ticker: str) -> None:
     ticker_detail = {
         "active": ticker.active,
         "cik": ticker.cik,

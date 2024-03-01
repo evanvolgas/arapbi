@@ -19,9 +19,10 @@ GCP_FOLDER_NAME = "polygon/tickers/"
 PROJECT_ID = "new-life-400922"
 WORKERS = 50
 
+
 # Scrape Polygon's website for stocks history for every ticker, make a dataframe out of the result,
 # and append that dataframe to a list of all dataframes for all stocks. It will be concatenated to one dataframe below.
-def fetch_stock_history(d):
+def fetch_stock_history(d: str) -> None:
     aggs = []
     for a in polygon_client.get_grouped_daily_aggs(d):
         aggs.append(a)
@@ -47,7 +48,7 @@ def fetch_stock_history(d):
         print(f"No ticker data for {d}")
 
 
-def scrape_gcp_for_csvs(file):
+def scrape_gcp_for_csvs(file: str) -> None:
     print(f"Downloading {file.name}")
     file_path = f"gs://{file.bucket.name}/{file.name}"
     df = pd.read_csv(file_path)
@@ -57,10 +58,8 @@ def scrape_gcp_for_csvs(file):
 
 if __name__ == "__main__":
     # Set up client connections
-    polygon_secret = os.getenv('POLYGON_API_KEY')
-    polygon_client = RESTClient(
-        polygon_secret, retries=10, trace=False
-    )
+    polygon_secret = os.getenv("POLYGON_API_KEY")
+    polygon_client = RESTClient(polygon_secret, retries=10, trace=False)
     storage_client = storage.Client()
 
     # Determine how many days worth of data to scrape from the API.
@@ -70,7 +69,7 @@ if __name__ == "__main__":
     max_date = pd.read_gbq(sql, project_id=PROJECT_ID, dialect="standard")
     max_stored_date = max_date["dt"].to_list()[0].strftime("%Y-%m-%d")
     dates = [str(d)[:10] for d in pd.date_range(max_stored_date, today)]
-    #dates = [str(d)[:10] for d in pd.date_range('2021-10-24', today)]
+    # dates = [str(d)[:10] for d in pd.date_range('2021-10-24', today)]
 
     # Retrieving stocks csv data from google storage and making a list of dataframes.
     # These will be fed to scrape_gcp_for_csvs
