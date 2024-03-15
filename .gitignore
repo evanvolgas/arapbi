@@ -1,12 +1,7 @@
 logs/*
-*.json
 *.icloud
 .DS_Store
 terraform/.terraform/*
-terraform/.terraform.lock.hcl
-*.pyc
 __pycache__/
 *.py[cod]
 *$py.class
-analysis/ad_hoc.ipynb
-analysis/.ipynb_checkpoints/ad_hoc-checkpoint.ipynb
