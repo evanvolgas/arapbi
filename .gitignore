@@ -1,7 +1,10 @@
-logs/*
 *.icloud
 .DS_Store
-terraform/.terraform/*
+
+terraform/*/*.terraform
+*.tfstate
+*.tfstate.backup
+
 __pycache__/
 *.py[cod]
 *$py.class
