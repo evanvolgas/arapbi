@@ -9,12 +9,12 @@ terraform {
 
 resource "google_cloud_run_v2_job" "alldividendshistory" {
   name     = "tf-alldividendshistory"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_dividends_history"]
         resources {
           limits = {
@@ -26,14 +26,14 @@ resource "google_cloud_run_v2_job" "alldividendshistory" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
-      timeout         = "1800s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      timeout         = var.timeout
+      service_account = var.service_account
     }
   }
 
@@ -46,12 +46,12 @@ resource "google_cloud_run_v2_job" "alldividendshistory" {
 
 resource "google_cloud_run_v2_job" "allcryptohistory" {
   name     = "tf-allcryptohistory"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_crypto_history"]
         resources {
           limits = {
@@ -63,14 +63,14 @@ resource "google_cloud_run_v2_job" "allcryptohistory" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
-      timeout         = "1800s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      timeout         = var.timeout
+      service_account = var.service_account
     }
   }
 
@@ -84,12 +84,12 @@ resource "google_cloud_run_v2_job" "allcryptohistory" {
 
 resource "google_cloud_run_v2_job" "alltickertypes" {
   name     = "tf-alltickertypes"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_ticker_types"]
         resources {
           limits = {
@@ -101,14 +101,14 @@ resource "google_cloud_run_v2_job" "alltickertypes" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
       timeout         = "900s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      service_account = var.service_account
     }
   }
 
@@ -121,12 +121,12 @@ resource "google_cloud_run_v2_job" "alltickertypes" {
 
 resource "google_cloud_run_v2_job" "alltickers" {
   name     = "tf-alltickers"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_ticker_types"]
         resources {
           limits = {
@@ -138,14 +138,14 @@ resource "google_cloud_run_v2_job" "alltickers" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
-      timeout         = "1800s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      timeout         = var.timeout
+      service_account = var.service_account
     }
   }
 
@@ -159,12 +159,12 @@ resource "google_cloud_run_v2_job" "alltickers" {
 
 resource "google_cloud_run_v2_job" "alltickersdetail" {
   name     = "tf-alltickersdetail"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_tickers_detail"]
         resources {
           limits = {
@@ -176,14 +176,14 @@ resource "google_cloud_run_v2_job" "alltickersdetail" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
-      timeout         = "1800s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      timeout         = var.timeout
+      service_account = var.service_account
     }
   }
 
@@ -197,12 +197,12 @@ resource "google_cloud_run_v2_job" "alltickersdetail" {
 
 resource "google_cloud_run_v2_job" "alltickershistory" {
   name     = "tf-alltickershistory"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_tickers_history"]
         resources {
           limits = {
@@ -214,14 +214,14 @@ resource "google_cloud_run_v2_job" "alltickershistory" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
-      timeout         = "1800s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      timeout         = var.timeout
+      service_account = var.service_account
     }
   }
 
@@ -234,12 +234,12 @@ resource "google_cloud_run_v2_job" "alltickershistory" {
 
 resource "google_cloud_run_v2_job" "alltickersfinancials" {
   name     = "tf-alltickersfinancials"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         args  = ["all_financials"]
         resources {
           limits = {
@@ -251,14 +251,14 @@ resource "google_cloud_run_v2_job" "alltickersfinancials" {
           name = "POLYGON_API_KEY"
           value_source {
             secret_key_ref {
-              secret  = "polygon"
-              version = "latest"
+              secret  = var.polygon_secret
+              version = var.polygon_secret_version
             }
           }
         }
       }
       timeout         = "900s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      service_account = var.service_account
     }
   }
 
@@ -272,7 +272,7 @@ resource "google_cloud_run_v2_job" "alltickersfinancials" {
 
 resource "google_cloud_run_v2_job" "dbtrun" {
   name     = "tf-dbtrun"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
@@ -281,7 +281,7 @@ resource "google_cloud_run_v2_job" "dbtrun" {
         secret {
           secret       = "dbt_credentials"
           default_mode = 292 # 0444
-          items {
+         items {
             version = "latest"
             path    = "dbt_credentials"
             mode    = 256 # 0400
@@ -289,7 +289,7 @@ resource "google_cloud_run_v2_job" "dbtrun" {
         }
       }
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         volume_mounts {
           name       = "secret-volume"
           mount_path = "/secrets"
@@ -307,7 +307,7 @@ resource "google_cloud_run_v2_job" "dbtrun" {
         }
       }
       timeout         = "900s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      service_account = var.service_account
     }
   }
 
@@ -320,7 +320,7 @@ resource "google_cloud_run_v2_job" "dbtrun" {
 
 resource "google_cloud_run_v2_job" "dbttest" {
   name     = "tf-dbttest"
-  location = "us-west1"
+  location = var.region
 
   template {
     template {
@@ -337,7 +337,7 @@ resource "google_cloud_run_v2_job" "dbttest" {
         }
       }
       containers {
-        image = "us-west1-docker.pkg.dev/new-life-400922/arapbi/arapbi:latest"
+        image = var.image
         volume_mounts {
           name       = "secret-volume"
           mount_path = "/secrets"
@@ -355,7 +355,7 @@ resource "google_cloud_run_v2_job" "dbttest" {
         }
       }
       timeout         = "900s"
-      service_account = "admin-509@new-life-400922.iam.gserviceaccount.com"
+      service_account = var.service_account
     }
   }
 
