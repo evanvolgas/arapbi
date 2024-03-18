@@ -1,0 +1,14 @@
+data_models:
+  outputs:
+    dev:
+      dataset: etl
+      job_execution_timeout_seconds: 3600
+      job_retries: 1
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+      location: US
+      method: service-account
+      priority: interactive
+      project: new-life-400922
+      threads: 8
+      type: bigquery
+  target: dev

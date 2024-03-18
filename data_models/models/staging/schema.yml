@@ -1,0 +1,112 @@
+version: 2
+
+models:
+
+  - name: stg_all_crypto_historical
+    description: "Enforce non null and test the compound primary key"
+    columns:
+      - name: ticker
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: date
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || date)"
+
+  - name: stg_all_dividends_historical
+    description: "Ensure non null Fks in the dividends table; also check the primary key"
+    columns:
+      - name: ticker
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: declaration_date
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || ex_dividend_date)"
+
+  - name: stg_all_financials_history
+    description: "Enforce non null and test the compound primary key"
+    columns:
+      - name: ticker
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: cik
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: start_date
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: end_date
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: fiscal_period
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || cik || '-' || start_date || '-' || end_date || '-' || fiscal_period)"
+
+  - name: stg_all_ticker_types
+    description: "Test to ensure Pks and Fks"
+    columns:
+      - name: code
+        description: "The primary key for this table"
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_all_tickers_detail
+    description: "test the primary key for the tickers detail table. Cardinality tests are not possible here because of missing data on Polygon's side. https://github.com/polygon-io/issues/issues/272#issuecomment-1760544659"
+    columns:
+      - name: type
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_all_tickers_historical
+    description: "Enforce non null and test the compound primary key"
+    columns:
+      - name: ticker
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: date
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(ticker || '-' || date)"
+
+  - name: stg_all_tickers
+    description: "Test all tickers for uniqueness and non nullity; this won't work if we add inactive tickers, though, but there will be duplicates if we do. https://github.com/polygon-io/issues/issues/272#issuecomment-1760544659"
+    columns:
+      - name: type
+        description: "A foreign key for this table"
+        tests:
+          - not_null
+      - name: ticker
+        description: "The primary key for this table"
+        tests:
+          - not_null
+          - unique
+
+
