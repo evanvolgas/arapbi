@@ -4,14 +4,13 @@ import os
 import pandas as pd
 import pandas_gbq
 
+from constants import *
 from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_ticker_types"
 CSV_FILE_NAME = "all_ticker_types.csv"
 GCP_FILE_NAME = "polygon/ticker_details/" + CSV_FILE_NAME
-PROJECT_ID = "new-life-400922"
-WORKERS = 50
 
 if __name__ == "__main__":
     polygon_secret = os.getenv("POLYGON_API_KEY")

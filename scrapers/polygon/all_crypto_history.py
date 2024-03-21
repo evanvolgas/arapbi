@@ -7,6 +7,7 @@ from threading import Lock
 import pandas as pd
 import pandas_gbq
 
+from constants import *
 from google.cloud import storage
 from polygon import RESTClient
 
@@ -14,11 +15,7 @@ from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_crypto_history"
-BUCKET_NAME = "arapbi-polygon"
 GCP_FOLDER_NAME = "polygon/crypto/"
-PROJECT_ID = "new-life-400922"
-WORKERS = 50
-
 
 polygon_secret = os.getenv("POLYGON_API_KEY")
 polygon_client = RESTClient(polygon_secret, retries=10, trace=False)

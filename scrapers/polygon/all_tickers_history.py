@@ -7,6 +7,7 @@ from threading import Lock
 import pandas as pd
 import pandas_gbq
 
+from constants import *
 from google.cloud import storage
 from polygon import RESTClient
 
@@ -14,10 +15,7 @@ from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_tickers_history"
-BUCKET_NAME = "arapbi-polygon"
 GCP_FOLDER_NAME = "polygon/tickers/"
-PROJECT_ID = "new-life-400922"
-WORKERS = 50
 
 
 # Scrape Polygon's website for stocks history for every ticker, make a dataframe out of the result,

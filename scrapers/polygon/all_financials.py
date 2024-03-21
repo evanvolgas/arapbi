@@ -7,14 +7,13 @@ from threading import Lock
 import pandas as pd
 import pandas_gbq
 
+from constants import *
 from polygon import RESTClient
 
 # Constants
 BQ_TABLE_NAME = "raw.all_financials_history"
 PARQUET_FILE_NAME = "all_financials_history.parquet"
 GCP_FILE_NAME = "polygon/financials/" + PARQUET_FILE_NAME
-PROJECT_ID = "new-life-400922"
-WORKERS = 50
 
 
 # Scrape Polygon's website for each ticker's dividend history, make a dataframe out of the result,
