@@ -9,7 +9,7 @@ terraform {
 
 provider "google" {
   project = "new-life-400922"
-  region  = "us-west1"
-  zone    = "us-west1"
+  region  = var.region
+  zone    = var.region
 }
 
